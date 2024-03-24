@@ -4,6 +4,10 @@ on:
   push:
     branches: [main] # branch to trigger deployment
 
+concurrency:
+    group: gh-${{ github.ref }}
+    cancel-in-progress: true
+
 jobs:
   pages:
     runs-on: ubuntu-20.04
@@ -14,6 +18,10 @@ jobs:
       pages: write
       id-token: write
     steps:
+    - name: Install
+      run: |
+        pip install .[dev]
+        pip list
     - id: deployment
       uses: sphinx-notes/pages@v3
       with:

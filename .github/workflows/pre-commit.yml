@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+    group: gh-${{ github.ref }}
+    cancel-in-progress: true
+    
+
 jobs:
   pre-commit:
     runs-on: ubuntu-latest
