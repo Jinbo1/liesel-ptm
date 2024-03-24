@@ -18,10 +18,6 @@ jobs:
       pages: write
       id-token: write
     steps:
-    - name: Install
-      run: |
-        pip install .[dev]
-        pip list
     - id: deployment
       uses: sphinx-notes/pages@v3
       with:
