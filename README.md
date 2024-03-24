@@ -21,6 +21,8 @@
   Liesel. For more on Liesel, see [the Liesel
   documentation](https://docs.liesel-project.org/en/latest/) and [the
   Liesel GitHub repository](https://github.com/liesel-devs/liesel).
+- [Documentation is available
+  here](https://liesel-devs.github.io/liesel-ptm/)
 
 ## Installation
 
