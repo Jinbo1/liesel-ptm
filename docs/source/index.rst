@@ -113,7 +113,6 @@ API Reference
     ~liesel_ptm.kn
 
 
-
 Indices and tables
 ==================
 
