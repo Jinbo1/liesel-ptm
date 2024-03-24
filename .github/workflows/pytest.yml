@@ -7,7 +7,7 @@ on:
 concurrency:
     group: gh-${{ github.ref }}-pytest
     cancel-in-progress: true
-    
+
 
 jobs:
   pytest:

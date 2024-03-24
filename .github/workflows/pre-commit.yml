@@ -9,7 +9,7 @@ on:
 concurrency:
     group: gh-${{ github.ref }}-precommit
     cancel-in-progress: true
-    
+
 
 jobs:
   pre-commit:
