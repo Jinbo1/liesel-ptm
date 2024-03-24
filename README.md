@@ -29,8 +29,12 @@
 The library can be installed from GitHub:
 
 ``` bash
-pip install git+https://github.com/liesel-devs/liesel-ptm.git#egg=liesel_ptm
+pip install "git+https://github.com/liesel-devs/liesel-ptm.git@<VERSION_TAG>#egg=liesel_ptm"
 ```
+
+In the above line, replace `<VERSION_TAG>` with the desired version to
+install. Available releases can be viewed
+[here](https://github.com/liesel-devs/liesel-ptm/releases).
 
 ## Example usage
 
