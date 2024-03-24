@@ -5,7 +5,7 @@ on:
     branches: [main] # branch to trigger deployment
 
 concurrency:
-    group: gh-${{ github.ref }}
+    group: gh-${{ github.ref }}-docs
     cancel-in-progress: true
 
 jobs:

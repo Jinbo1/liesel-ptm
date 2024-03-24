@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 concurrency:
-    group: gh-${{ github.ref }}
+    group: gh-${{ github.ref }}-precommit
     cancel-in-progress: true
     
 
