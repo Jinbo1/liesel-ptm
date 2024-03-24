@@ -3,6 +3,7 @@
 [![pre-commit](https://github.com/liesel-devs/liesel-ptm/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/liesel-devs/liesel-ptm/actions/workflows/pre-commit.yml)
 [![pytest](https://github.com/liesel-devs/liesel-ptm/actions/workflows/pytest.yml/badge.svg)](https://github.com/liesel-devs/liesel-ptm/actions/workflows/pytest.yml)
 [![pytest-cov](tests/coverage.svg)](https://github.com/liesel-devs/liesel-ptm/actions/workflows/pytest.yml)
+[![docs](https://github.com/liesel-devs/liesel-ptm/actions/workflows/docs.yml/badge.svg)](https://github.com/liesel-devs/liesel-ptm/actions/workflows/docs.yml)
 
 ## Overview
 
@@ -92,10 +93,10 @@ graph = model.build_graph(position=position)
     liesel.model.model - INFO - Converted dtype of Data(name="x0_loc_coef_value").value
     liesel.model.model - INFO - Converted dtype of Data(name="normalization_shape_transformed_value").value
     liesel_ptm.ptm_ls - INFO - Optimizing 2 parameters.
-    liesel_ptm.ptm_ls - INFO - Finished optimization after 268 iterations.
+    liesel_ptm.ptm_ls - INFO - Finished optimization after 261 iterations.
     liesel.model.model - INFO - Converted dtype of Data(name="normalization_shape_transformed_value").value
     liesel_ptm.ptm_ls - INFO - Optimizing parameter block #1 (len=3).
-    liesel_ptm.ptm_ls - INFO - Finished optimization after 826 iterations.
+    liesel_ptm.ptm_ls - INFO - Finished optimization after 631 iterations.
 
 ### MCMC Sampling
 
@@ -115,46 +116,47 @@ samples = results.get_posterior_samples()
     liesel.goose.engine - INFO - Initializing kernels...
     liesel.goose.engine - INFO - Done
     liesel.goose.engine - INFO - Starting epoch: FAST_ADAPTATION, 75 transitions, 25 jitted together
-    liesel.goose.engine - WARNING - Errors per chain for kernel_01: 0, 1, 0, 1 / 75 transitions
-    liesel.goose.engine - WARNING - Errors per chain for kernel_02: 2, 2, 3, 3 / 75 transitions
-    liesel.goose.engine - WARNING - Errors per chain for kernel_03: 3, 3, 3, 4 / 75 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_01: 0, 1, 1, 0 / 75 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_02: 3, 2, 2, 2 / 75 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_03: 1, 4, 1, 3 / 75 transitions
     liesel.goose.engine - INFO - Finished epoch
     liesel.goose.engine - INFO - Starting epoch: SLOW_ADAPTATION, 25 transitions, 25 jitted together
-    liesel.goose.engine - WARNING - Errors per chain for kernel_01: 1, 1, 1, 1 / 25 transitions
-    liesel.goose.engine - WARNING - Errors per chain for kernel_02: 1, 2, 2, 1 / 25 transitions
-    liesel.goose.engine - WARNING - Errors per chain for kernel_03: 2, 2, 2, 2 / 25 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_00: 1, 0, 0, 0 / 25 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_01: 1, 1, 0, 1 / 25 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_02: 1, 1, 1, 1 / 25 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_03: 2, 2, 1, 2 / 25 transitions
     liesel.goose.engine - INFO - Finished epoch
     liesel.goose.engine - INFO - Starting epoch: SLOW_ADAPTATION, 50 transitions, 25 jitted together
-    liesel.goose.engine - WARNING - Errors per chain for kernel_00: 1, 0, 0, 0 / 50 transitions
-    liesel.goose.engine - WARNING - Errors per chain for kernel_01: 1, 1, 2, 1 / 50 transitions
-    liesel.goose.engine - WARNING - Errors per chain for kernel_02: 2, 1, 1, 1 / 50 transitions
-    liesel.goose.engine - WARNING - Errors per chain for kernel_03: 2, 2, 0, 2 / 50 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_01: 1, 0, 1, 1 / 50 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_02: 1, 3, 1, 3 / 50 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_03: 1, 1, 1, 4 / 50 transitions
     liesel.goose.engine - INFO - Finished epoch
     liesel.goose.engine - INFO - Starting epoch: SLOW_ADAPTATION, 100 transitions, 25 jitted together
-    liesel.goose.engine - WARNING - Errors per chain for kernel_00: 1, 0, 0, 0 / 100 transitions
-    liesel.goose.engine - WARNING - Errors per chain for kernel_01: 1, 2, 1, 1 / 100 transitions
-    liesel.goose.engine - WARNING - Errors per chain for kernel_02: 6, 1, 2, 6 / 100 transitions
-    liesel.goose.engine - WARNING - Errors per chain for kernel_03: 2, 3, 2, 5 / 100 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_00: 1, 0, 1, 0 / 100 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_01: 1, 1, 2, 1 / 100 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_02: 4, 2, 2, 3 / 100 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_03: 1, 3, 0, 3 / 100 transitions
     liesel.goose.engine - INFO - Finished epoch
     liesel.goose.engine - INFO - Starting epoch: SLOW_ADAPTATION, 200 transitions, 25 jitted together
-    liesel.goose.engine - WARNING - Errors per chain for kernel_01: 1, 3, 1, 1 / 200 transitions
-    liesel.goose.engine - WARNING - Errors per chain for kernel_02: 2, 5, 5, 3 / 200 transitions
-    liesel.goose.engine - WARNING - Errors per chain for kernel_03: 2, 4, 4, 5 / 200 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_01: 1, 1, 1, 1 / 200 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_02: 4, 8, 5, 6 / 200 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_03: 2, 2, 2, 4 / 200 transitions
     liesel.goose.engine - INFO - Finished epoch
     liesel.goose.engine - INFO - Starting epoch: SLOW_ADAPTATION, 500 transitions, 25 jitted together
-    liesel.goose.engine - WARNING - Errors per chain for kernel_01: 1, 1, 0, 1 / 500 transitions
-    liesel.goose.engine - WARNING - Errors per chain for kernel_02: 6, 11, 9, 5 / 500 transitions
-    liesel.goose.engine - WARNING - Errors per chain for kernel_03: 4, 6, 4, 3 / 500 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_00: 0, 0, 0, 1 / 500 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_01: 1, 1, 1, 1 / 500 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_02: 3, 6, 6, 7 / 500 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_03: 4, 2, 3, 2 / 500 transitions
     liesel.goose.engine - INFO - Finished epoch
     liesel.goose.engine - INFO - Starting epoch: FAST_ADAPTATION, 50 transitions, 25 jitted together
     liesel.goose.engine - WARNING - Errors per chain for kernel_00: 0, 0, 0, 1 / 50 transitions
-    liesel.goose.engine - WARNING - Errors per chain for kernel_01: 1, 1, 1, 1 / 50 transitions
-    liesel.goose.engine - WARNING - Errors per chain for kernel_02: 4, 2, 1, 5 / 50 transitions
-    liesel.goose.engine - WARNING - Errors per chain for kernel_03: 1, 4, 2, 1 / 50 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_01: 0, 1, 1, 0 / 50 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_02: 3, 2, 2, 4 / 50 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_03: 0, 1, 2, 4 / 50 transitions
     liesel.goose.engine - INFO - Finished epoch
     liesel.goose.engine - INFO - Finished warmup
     liesel.goose.engine - INFO - Starting epoch: POSTERIOR, 1000 transitions, 25 jitted together
-    liesel.goose.engine - WARNING - Errors per chain for kernel_02: 1, 33, 122, 8 / 1000 transitions
+    liesel.goose.engine - WARNING - Errors per chain for kernel_02: 9, 50, 1, 1 / 1000 transitions
     liesel.goose.engine - INFO - Finished epoch
 
 ### Plotting the conditional density at $x=0$
