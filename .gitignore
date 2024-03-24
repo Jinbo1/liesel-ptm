@@ -168,7 +168,4 @@ cython_debug/
 .vscode/
 .Rproj.user
 .Rhistory
-results.pickle
-tests/resources/sim_dtm/seed_1-results.pickle
-tests/resources/sim_dtm_locscale/seed_3-results.pickle
 .jupyter_cache/
