@@ -49,7 +49,7 @@ from .nodes import (
     sumzero_coef,
     sumzero_term,
 )
-from .optim import OptimResult, history_to_df, optim_flat
+from .optim import OptimResult, Stopper, history_to_df, optim_flat
 from .ptm_ls import PTMLocScale, PTMLocScalePredictions, ShapePrior, state_to_samples
 from .sampling import (
     cache_results,
