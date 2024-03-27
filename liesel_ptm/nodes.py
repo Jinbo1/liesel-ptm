@@ -380,14 +380,18 @@ def sumzero_term(basis: Array) -> Array:
 
     Example usage::
 
-        import numpy as np import tensorflow_probability.substrates.jax.distributions as
-        tfd import liesel.model as lsl import liesel_ptm as ptm
+        import numpy as np
+        import tensorflow_probability.substrates.jax.distributions as tfd
+        import liesel.model as lsl
+        import liesel_ptm as ptm
 
-        np.random.seed(2407) x = np.random.uniform(low=-1.0, high=1.0, size=300) nparam
-        = 10 knots = ptm.kn(x, n_params=nparam)
+        np.random.seed(2407)
+        x = np.random.uniform(low=-1.0, high=1.0, size=300)
+        nparam = 10
+        knots = ptm.kn(x, n_params=nparam)
 
-        Z = ptm.sumzero_term(ptm.bspline_basis(x, knots, 3)) K = Z.T @
-        ptm.diffpen(nparam, diff=2) @ Z
+        Z = ptm.sumzero_term(ptm.bspline_basis(x, knots, 3))
+        K = Z.T @ ptm.diffpen(nparam, diff=2) @ Z
 
         def basis_fn(x):
             return ptm.bspline_basis(x, knots, 3) @ Z
