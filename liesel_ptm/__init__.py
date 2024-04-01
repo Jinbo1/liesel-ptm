@@ -9,6 +9,7 @@ from .bsplines import (
     bspline_basis_deriv2,
     kn,
 )
+from .cache import cache
 from .datagen import PTMLocScaleDataGen, TAMLocScaleDataGen, example_data, sample_shape
 from .nodes import (
     BasisDot,

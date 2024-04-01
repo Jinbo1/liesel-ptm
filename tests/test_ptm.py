@@ -1,4 +1,6 @@
 import logging
+import time
+import timeit
 from collections.abc import Iterator
 
 import jax
@@ -1065,3 +1067,47 @@ def test_state_to_samples() -> None:
     summary_df = pred.summarise_density_by_quantiles()
 
     assert not summary_df.isna().sum().sum()
+
+
+class TestCache:
+    def test_cache_model(self, tmp_path):
+        cache = ptm.cache(tmp_path)
+
+        @cache
+        def setup_model():
+            df = pd.read_csv("tests/resources/nonnormal_linear/data.csv")
+
+            x = df.x.to_numpy()
+            y = df.y.to_numpy()
+            time.sleep(1)
+
+            path = "tests/resources/nonnormal_linear/knots.pickle"
+            model = ptm_ls.PTMLocScale._from_knots(path, y)
+            model.loc_model += ptm.LinearTerm(x, name="x_loc")
+            model.log_scale_model += ptm.LinearTerm(x, name="x_scale")
+            return model
+
+        time1 = timeit.timeit(setup_model, number=1)
+        time2 = timeit.timeit(setup_model, number=1)
+
+        assert time1 > time2
+        assert time1 > 1.0
+        assert time2 < 0.01
+
+    def test_cache_predictions(self, tmp_path, model, samples):
+        cache = ptm.cache(tmp_path)
+
+        @cache
+        def setup_predictions():
+            time.sleep(1)
+            pred = ptm_ls.PTMLocScalePredictions(
+                samples, model, x_loc=None, x_scale=None
+            )
+            return pred
+
+        time1 = timeit.timeit(setup_predictions, number=1)
+        time2 = timeit.timeit(setup_predictions, number=1)
+
+        assert time1 > time2
+        assert time1 > 1.0
+        assert time2 < 0.01
