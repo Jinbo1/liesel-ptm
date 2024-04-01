@@ -16,9 +16,7 @@ def cache(directory):
             cache_dir.mkdir(exist_ok=True, parents=True)
 
             # Generate a unique filename based on function name and arguments
-            cache_file = cache_filename(
-                cache_dir, f"{func.__name__}_{id(func)}", args, kwargs
-            )
+            cache_file = cache_filename(cache_dir, func.__name__, args, kwargs)
 
             # If cached file exists, load and return the result
             if cache_file.exists():
