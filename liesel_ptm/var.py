@@ -6,6 +6,12 @@ import tensorflow_probability.substrates.jax.distributions as tfd
 from liesel.model.nodes import ArgGroup, Calc, InputGroup
 
 
+class InvertBijector(tfb.Invert):
+    # Slight modification of the tfb.Invert class to allow pickling via dill.
+    def __reduce__(self):
+        return (self.__class__, (self.bijector,))
+
+
 def _transform_var_with_bijector_instance(
     var: lsl.Var, bijector_inst: tfb.Bijector
 ) -> lsl.Var:
@@ -13,7 +19,7 @@ def _transform_var_with_bijector_instance(
     inputs = var.dist_node.inputs
     kwinputs = var.dist_node.kwinputs
 
-    bijector_inv = tfb.Invert(bijector_inst)
+    bijector_inv = InvertBijector(bijector_inst)
 
     def transform_dist(*args, **kwargs):
         return tfd.TransformedDistribution(InputDist(*args, **kwargs), bijector_inv)
@@ -55,7 +61,7 @@ def _transform_var_with_bijector_class(
         tfp_dist = InputDist(*dist_args.args, **dist_args.kwargs)
 
         bijector_inst = bijector_cls(*bijector_args.args, **bijector_args.kwargs)
-        bijector_inv = tfb.Invert(bijector_inst)
+        bijector_inv = InvertBijector(bijector_inst)
 
         transformed_dist = tfd.TransformedDistribution(
             tfp_dist, bijector_inv, validate_args=tfp_dist.validate_args
