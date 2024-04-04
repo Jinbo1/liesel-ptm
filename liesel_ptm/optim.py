@@ -107,7 +107,7 @@ class Stopper:
     max_iter: int
     patience: int
     atol: float = 1e-3
-    rtol: float = 1e-6
+    rtol: float = 1e-12
 
     def stop_early(self, i: int | Array, loss_history: Array):
         """
@@ -122,13 +122,30 @@ class Stopper:
         best_loss_in_recent = jnp.min(recent_history)
         current_loss = loss_history[i]
 
-        change = best_loss_in_recent - current_loss
-
+        change = current_loss - best_loss_in_recent
+        """
+        If current_loss is better than best_loss_in_recent, this is negative.
+        If current_loss is worse, this is positive.
+        """
         rel_change = jnp.abs(jnp.abs(change) / best_loss_in_recent)
 
-        no_improvement = change < self.atol
-        no_rel_change = rel_change < self.rtol
-        return no_improvement & no_rel_change & (i > p)
+        no_improvement = change > self.atol
+        """
+        If the current loss has not improved upon the best loss in the patience
+        period, we always want to stop. However, we actually allow for slightly
+        worse losses, defined by the absolute tolerance here.
+        """
+
+        no_rel_change = ~no_improvement & (rel_change < self.rtol)
+        """
+        Let's say the current value *does* improve upon the best value within patience,
+        such that no_improvement=False.
+
+        In this case, if the improvement is very small compared to the best observed
+        loss in the patience period, we may still want to stop.
+        """
+
+        return (no_improvement | no_rel_change) & (i > p)
 
     def stop_now(self, i: int | Array, loss_history: Array):
         """Whether optimization should stop now."""
