@@ -86,6 +86,34 @@ class TestOptim:
 
         stopper = Stopper(max_iter=1000, patience=30)
         result_batched_small = optim_flat(
+            model,
+            ["coef", "log_sigma"],
+            batch_size=10,
+            batch_seed=1,
+            stopper=stopper,
+            model_test=model,
+        )
+        result_batched_big = optim_flat(
+            model,
+            ["coef", "log_sigma"],
+            batch_size=40,
+            batch_seed=1,
+            stopper=stopper,
+            model_test=model,
+        )
+        result_nonbatched = optim_flat(
+            model, ["coef", "log_sigma"], stopper=stopper, model_test=model
+        )
+
+        assert result_batched_small.iteration != result_nonbatched.iteration
+        assert result_batched_small.iteration != result_batched_big.iteration
+        assert result_nonbatched.iteration != result_batched_big.iteration
+
+    def test_optim_flat_no_early_stopping_without_test_model(self, models):
+        model, _ = models
+
+        stopper = Stopper(max_iter=1000, patience=30)
+        result_batched_small = optim_flat(
             model, ["coef", "log_sigma"], batch_size=10, batch_seed=1, stopper=stopper
         )
         result_batched_big = optim_flat(
@@ -93,9 +121,9 @@ class TestOptim:
         )
         result_nonbatched = optim_flat(model, ["coef", "log_sigma"], stopper=stopper)
 
-        assert result_batched_small.iteration != result_nonbatched.iteration
-        assert result_batched_small.iteration != result_batched_big.iteration
-        assert result_nonbatched.iteration != result_batched_big.iteration
+        assert result_batched_small.iteration == stopper.max_iter
+        assert result_batched_big.iteration == stopper.max_iter
+        assert result_nonbatched.iteration == stopper.max_iter
 
     def test_optim_flat_train_test(self, models):
         model, model_test = models
@@ -167,10 +195,12 @@ def test_history_to_df_pruned(models):
         stopper=stopper,
         batch_seed=1,
         prune_history=True,
+        model_test=model,
     )
+
     df = history_to_df(result.history["position"])
 
-    assert df.shape == (93, 4)
+    assert df.shape == (77, 4)
 
 
 def test_generate_batches():
