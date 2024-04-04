@@ -109,7 +109,7 @@ class Stopper:
     atol: float = 1e-3
     rtol: float = 1e-6
 
-    def stop_early(self, i: int, loss_history: Array):
+    def stop_early(self, i: int | Array, loss_history: Array):
         """
         Includes loss at iterations *before* i, but excluding i itself.
         """
@@ -118,23 +118,26 @@ class Stopper:
         recent_history = jax.lax.dynamic_slice(
             loss_history, start_indices=(lower,), slice_sizes=(p,)
         )
-        recent_changes = jnp.diff(recent_history)
 
-        abs_changes = jnp.abs(recent_changes)
-        rel_changes = jnp.abs(abs_changes / recent_history[:-1])
+        best_loss_in_recent = jnp.min(recent_history)
+        current_loss = loss_history[i]
 
-        no_abs_change = (abs_changes > self.atol).sum() < 1
-        no_rel_change = (rel_changes > self.rtol).sum() < 1
-        return no_abs_change & no_rel_change & (i > p)
+        change = best_loss_in_recent - current_loss
 
-    def stop_now(self, i: int, loss_history: Array):
+        rel_change = jnp.abs(jnp.abs(change) / best_loss_in_recent)
+
+        no_improvement = change < self.atol
+        no_rel_change = rel_change < self.rtol
+        return no_improvement & no_rel_change & (i > p)
+
+    def stop_now(self, i: int | Array, loss_history: Array):
         """Whether optimization should stop now."""
         stop_early = self.stop_early(i=i, loss_history=loss_history)
         stop_max_iter = i >= self.max_iter
 
         return stop_early | stop_max_iter
 
-    def continue_(self, i: int, loss_history: Array):
+    def continue_(self, i: int | Array, loss_history: Array):
         """Whether optimization should continue (inverse of :meth:`.stop_now`)."""
         return ~self.stop_now(i=i, loss_history=loss_history)
 
@@ -398,13 +401,13 @@ def optim_flat(
 
     val = jax.lax.while_loop(
         cond_fun=lambda val: stopper.continue_(
-            val["while_i"], val["history"]["loss_test"]
+            jnp.clip(val["while_i"] - 1, a_min=0), val["history"]["loss_test"]
         ),
         body_fun=body_fun,
         init_val=init_val,
     )
 
-    max_iter = val["while_i"]
+    max_iter = val["while_i"] - 1
 
     # ---------------------------------------------------------------------------------
     # Set final position and model state
@@ -466,9 +469,11 @@ def history_to_df(history: dict[str, Array]) -> pd.DataFrame:
     """
     data: dict[str, Array] = dict()
 
-    position_history = history.pop("position", None)
+    position_history = history.get("position", None)
 
     for name, value in history.items():
+        if name == "position":
+            continue
         data |= array_to_dict(value, names_prefix=name)
 
     if position_history is not None:
