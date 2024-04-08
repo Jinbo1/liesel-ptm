@@ -1911,15 +1911,15 @@ class VarInverseGamma(Var):
         name: str,
         bijector: tfb.Bijector | None = tfb.Softplus(),
     ) -> None:
-        if isinstance(scale, float):
-            scale = lsl.Data(scale, _name=f"{name}_scale")
-        else:
+        try:
             scale.name = f"{name}_scale"
+        except AttributeError:
+            scale = lsl.Data(scale, _name=f"{name}_scale")
 
-        if isinstance(concentration, float):
-            concentration = lsl.Data(concentration, _name=f"{name}_concentration")
-        else:
+        try:
             concentration.name = f"{name}_concentration"
+        except AttributeError:
+            concentration = lsl.Data(concentration, _name=f"{name}_concentration")
 
         prior = lsl.Dist(tfd.InverseGamma, concentration=concentration, scale=scale)
         super().__init__(value, prior, name=name)
