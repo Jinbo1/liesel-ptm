@@ -2479,7 +2479,9 @@ class PSplineCoef(lsl.Var):
         )
 
         self.shape_reparam = lsl.param(
-            np.zeros(nparam_reparameterized), prior, name=f"{name}_transformed"
+            np.zeros(nparam_reparameterized, dtype=np.float32),
+            prior,
+            name=f"{name}_transformed",
         )
         self.transformation_matrix = Z
 
