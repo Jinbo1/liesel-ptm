@@ -1912,12 +1912,12 @@ class VarInverseGamma(Var):
         bijector: tfb.Bijector | None = tfb.Softplus(),
     ) -> None:
         try:
-            scale.name = f"{name}_scale"
+            scale.name = f"{name}_scale"  # type: ignore
         except AttributeError:
             scale = lsl.Data(scale, _name=f"{name}_scale")
 
         try:
-            concentration.name = f"{name}_concentration"
+            concentration.name = f"{name}_concentration"  # type: ignore
         except AttributeError:
             concentration = lsl.Data(concentration, _name=f"{name}_concentration")
 
