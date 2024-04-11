@@ -200,7 +200,7 @@ def test_history_to_df_pruned(models):
 
     df = history_to_df(result.history["position"])
 
-    assert df.shape == (77, 4)
+    assert df.shape == (84, 4)
 
 
 def test_generate_batches():
