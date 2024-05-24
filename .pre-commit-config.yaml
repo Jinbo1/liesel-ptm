@@ -38,12 +38,3 @@ repos:
         args: [--ignore-missing-imports, --scripts-are-modules]
         require_serial: true
         exclude: ^docs/
-default_language_version:
-  python: python3.12.3  # Replace with your Python version
-
-repos:
--   repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.10.0  # Use the mypy version you need
-    hooks:
-    - id: mypy
-      additional_dependencies: ['mypy==1.10.0']
