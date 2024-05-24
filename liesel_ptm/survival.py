@@ -4,7 +4,7 @@ import jax.numpy as jnp
 import liesel.model as lsl
 from liesel.model.nodes import no_model_setter
 
-from liesel_ptm.custom_types import Array, KeyArray, TFPDistribution
+from liesel_ptm.custom_types import Array, TFPDistribution
 
 
 class TransformationDist(lsl.Dist):
@@ -97,9 +97,8 @@ class TransformationDist_sur(lsl.Dist):
     @property
     def per_obs(self) -> bool:
         """Whether the log-probability is stored per observation or summed up."""
-        return (
-            self._per_obs
-        )  # indicates whether the log-probability should be stored per observation or summed over all observations
+        return self._per_obs
+        # indicates whether the log-probability should be stored per observation or summed over all observations
 
     @per_obs.setter  # sets the `per_obs` property
     @no_model_setter
